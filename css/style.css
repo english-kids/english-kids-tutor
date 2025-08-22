@@ -1,0 +1,641 @@
+.container {
+    max-width: 1310px;
+    padding: 0 15px;
+    margin: 0 auto;
+}
+
+.container.small {
+    max-width: 1094px; /*1064+15+15*/
+}
+
+/* ===== Переменные, контейнеры, базовые ===== */
+:root{
+  /* базовые */
+  --accent:#FFE36E;          /* жёлтый акцент */
+  --accent-2:#FFE59A;        /* светлый жёлтый */
+  --text:#1B1B1B;
+  --muted:#6B6B6B;
+  --bg:#FFFFFF;
+  --radius:16px;
+
+  /* яркая палитра (референс) */
+  --hot-1:#FF7A1A;           /* сочный оранжевый */
+  --hot-2:#FF9C2B;           /* тёплый апельсин */
+  --hot-3:#FFC53D;           /* манго */
+  --hot-4:#FFE36E;           /* яркий жёлтый = accent */
+
+  /* готовые градиенты */
+  --sunny-grad: radial-gradient(180% 120% at 100% 0, var(--accent) 0%, var(--accent-2) 42%, #fff 72%);
+  --sunny-grad2: radial-gradient(180% 120% at 100% 0, var(--hot-1) 0%, var(--hot-3) 42%, #fff 72%);
+  --brand-grad: radial-gradient(210% 140% at 0% 0%, var(--hot-1) 0%, var(--hot-2) 30%, var(--hot-3) 58%, var(--hot-4) 85%, #FFF8C9 100%);
+  --about-grad: linear-gradient(
+  180deg,
+  #ffffff 0%,
+  #fffaf0 8%,
+  var(--hot-4) 32%,
+  var(--hot-3) 56%,
+  var(--hot-2) 78%,
+  var(--hot-1) 100%
+);
+
+
+--benefits-grad: linear-gradient(
+  180deg,
+  var(--hot-1) 0%,
+  var(--hot-3) 32%,
+  var(--hot-4) 62%,
+  #FFF7D1 82%,
+  #FFFFFF 100%
+);
+
+  --services-grad: radial-gradient(180% 120% at 100% 100%,
+  var(--hot-1) 0%, var(--hot-3) 42%, #fff 72%);
+}
+
+
+html,body{
+  background:var(--bg);
+  color:var(--text);
+  font:16px/1.55 "Nunito",system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;
+  -webkit-font-smoothing:antialiased; text-rendering:optimizeLegibility;
+}
+img{max-width:100%; height:auto; display:block}
+a{color:inherit; text-decoration:none}
+
+/* контейнеры */
+.container{max-width:1310px; padding:0 15px; margin:0 auto;}
+.container.small{max-width:1094px;}
+
+/* ===== Header ===== */
+.header{position:sticky; top:0; z-index:50; background:#fff; border-bottom:1px solid #eee;}
+.header__inner{min-height:56px; display:flex; align-items:center; gap:12px;}
+.header__socials{flex:0 0 auto;}  /* иконки не растягиваем */
+.header__spacer{display:none;}    /* убираем «растяжку» справа */
+.header__nav{flex:0 0 auto; margin-left:auto;} /* меню вправо */
+
+.header__socials{
+  display:flex; align-items:center; gap:10px;
+}
+
+/* без круга, больше сама иконка */
+.header__social{
+  display:inline-flex; align-items:center; justify-content:center;
+  padding:6px;                 /* большой кликабельный хитбокс */
+  background:transparent;      /* убрали серый фон */
+  border-radius:8px;           /* можно 0, если не нужно вовсе */
+  color:#111; text-decoration:none;
+  transition:transform .15s ease, background-color .15s ease;
+}
+
+/* сами иконки (svg/i/img) делаем крупнее */
+.header__social svg,
+.header__social i,
+.header__social img{
+  width:28px; height:28px;     /* было 20–24? стало крупнее */
+  display:block;
+}
+
+/* лёгкий ховер (если совсем без фона — удалите background) */
+.header__social:hover{
+  transform:translateY(-1px) scale(1.06);
+  background:rgba(0,0,0,.04);  /* можно удалить, тогда фона не будет вовсе */
+}
+.header__social:active{ transform:translateY(0) scale(0.98); }
+.header__social:focus-visible{ outline:2px solid currentColor; outline-offset:2px; }
+
+
+.header__nav{display:flex; align-items:center; gap:12px}
+.header__burger{display:inline-flex; flex-direction:column; gap:4px; padding:8px; background:none; border:0; cursor:pointer}
+.header__burger span{width:22px; height:2px; background:#111; border-radius:2px}
+.header__menu{
+  position:fixed; left:0; right:0; top:56px;
+  display:none; flex-direction:column; background:#fff; border-top:1px solid #eee;
+}
+.header__menu.is-open{display:flex}
+.header__link{display:block; padding:14px 16px; border-radius:10px; font-weight:700}
+.header__link:hover{background:#f6f6f6}
+
+/* номер телефона не используем */
+.header__phone,.header__phone-text{display:none}
+
+
+/* телефон — перед меню, прижимает связку "телефон+бургер" вправо */
+.header__tel{ flex:0 0 auto; margin-left:auto; }
+
+.header__tel-link{
+  display:inline-block; white-space:nowrap;
+  font-weight:600; font-size:16px; line-height:1;
+  color:#111; text-decoration:none;
+  padding:4px 6px; border-radius:8px;
+  transition:background-color .15s, transform .15s;
+}
+.header__tel-link:hover{ background:rgba(0,0,0,.04); transform:translateY(-1px); }
+.header__tel-link:active{ transform:translateY(0) scale(.98); }
+
+/* маленький отступ между номером и бургером/меню */
+.header__nav{ flex:0 0 auto; margin-left:8px; }
+
+/* если на очень узких экранах не влезает — слегка уменьшаем номер */
+@media (max-width: 768px){
+  .header__inner{ gap:6px; }
+  .header__nav{ margin-left:4px; }
+}
+
+/* ≤425px: ещё чуть меньше */
+@media (max-width: 425px){
+  .header__inner{ gap:4px; }
+  .header__nav{ margin-left:2px; }
+}
+
+/* очень узкие (твоя настройка) */
+@media (max-width:360px){
+  .header__tel-link{ font-size:14px; padding:3px 4px; }
+}
+
+
+@media (max-width: 375px){
+  .header__inner{ gap:4px; }     /* общий промежуток меньше */
+  .header__nav{ margin-left:2px; }/* зазор между номером и бургером */
+
+  .header__tel-link{
+    font-size:13px;               /* было 16 → стало 13 */
+    padding:2px 4px;              /* компактнее хитбокс */
+  }
+
+ 
+}
+
+
+
+@media (max-width: 768px){
+  .header__socials{ gap:6px; }   /* было 10px */
+}
+
+@media (max-width: 425px){
+  .header__socials{ gap:4px; }   /* ещё меньше */
+}
+
+@media (max-width: 375px){
+  .header__socials{ gap:2px; }   /* самый плотный ряд */
+}
+
+
+/* ===== Кнопки ===== */
+.btn{
+  display:inline-flex; align-items:center; justify-content:center;
+  padding:12px 18px; border-radius:999px; font-weight:800;
+  transition:.2s ease; text-align:center;
+}
+.btn--dark{background:#0F0F10; color:#fff;}
+.btn--dark:hover{filter:brightness(.9);}
+.btn--light{background:#fff; color:#0F0F10; border:none; box-shadow:0 6px 18px rgba(0,0,0,.14);}
+.btn--light:hover{background:#0F0F10; color:#fff; box-shadow:none;}
+
+/* было: только «Услуги» шире. На мобилке ниже мы всё равно растягиваем обе кнопки */
+.hero__actions .btn:first-child{padding-inline:24px; min-width:130px;}
+
+/* === HERO (mobile-first) === */
+.hero{
+  background:var(--sunny-grad2);;
+  padding:24px 0 32px;
+}
+.hero__inner{display:grid; grid-template-columns:1fr; gap:16px; align-items:center;}
+.hero__image{border-radius:var(--radius); overflow:hidden;}
+.hero__image img{width:100%; height:clamp(240px,45vh,420px); object-fit:cover; display:block; box-shadow:0 10px 30px rgba(0,0,0,.08);}
+.hero__content{margin-top:-72px;} 
+
+/* панель: центрируем текст и контролируем ширину */
+.hero__panel{
+  position:relative; color:#fff; padding:16px; border-radius:14px;
+  background:rgba(17,17,17,.78); box-shadow:0 8px 22px rgba(0,0,0,.12); overflow:hidden;
+  text-align:center;
+}
+.hero__panel::after{
+  content:""; position:absolute; inset:0; pointer-events:none;
+  /* background-image:radial-gradient(rgba(255,255,255,.10) 1px, transparent 1.2px); */
+  background-size:16px 16px; opacity:.9;
+}
+
+/* центр и компактнее отступы */
+.hero__title{
+  margin:0 0 10px;
+  font-size:clamp(22px,5.6vw,38px);
+  line-height:1.15;
+}
+.hero__subtitle{
+  margin:0 auto 16px;
+  color:rgba(255,255,255,.92);
+  max-width:50ch;
+}
+
+/* Кнопки: по центру и одинаково растянуты по ширине (мобилка) */
+.hero__actions{
+  display:flex; flex-direction:column; gap:12px; align-items:stretch;
+}
+.hero__actions .btn{
+  width:100%; min-height:48px;
+}
+.hero__actions .btn:first-child{
+  min-width:unset;           /* убрать прежнее ограничение, чтобы обе были 100% */
+  padding-inline:18px;
+}
+
+
+
+/* === HERO — DESKTOP как на макете === */
+/* .hero{--header-h:56px; --panel-start:52vw; position:relative; min-height:calc(100vh - var(--header-h)); padding:0; background:radial-gradient(180% 120% at 100% 0, var(--accent) 0%, var(--accent-2) 42%, #fff 72%); overflow:hidden;}
+.hero__inner{display:grid; grid-template-columns:1.05fr .95fr; align-items:stretch; column-gap:32px; height:100%;}
+.hero__image{border-radius:var(--radius); overflow:hidden;}
+.hero__image img{width:100%; height:100%; object-fit:cover; display:block; box-shadow:0 10px 30px rgba(0,0,0,.08);}
+.hero__content{margin-top:0; position:relative; z-index:1; display:flex; align-items:center; background:transparent;}
+.hero__panel{position:relative; color:#fff; padding:40px 0 40px 40px; border-radius:0; background:transparent; box-shadow:none; overflow:visible; max-width:680px;}
+.hero::after{content:""; position:absolute; top:0; right:0; bottom:0; left:var(--panel-start); background:rgba(17,17,17,.88); background-image:radial-gradient(rgba(255,255,255,.10) 1px, transparent 1.2px); background-size:16px 16px; opacity:.98; pointer-events:none;}
+.hero__panel::after{content:none;} 
+.hero__title{margin:0 0 12px; font-size:clamp(36px,4vw,56px); line-height:1.15;}
+.hero__subtitle{margin:0 0 24px; font-size:18px; color:rgba(255,255,255,.92); max-width:50ch;}
+.hero__actions{display:flex; gap:12px; flex-wrap:wrap;} */
+
+
+/* ========= About ========= */
+.about{
+  background: var(--about-grad);   /* продолжение первого экрана */
+  padding:46px 0;
+}
+
+.about__card{
+  background: rgba(255,255,255,.96);        /* лёгкая прозрачность, чтобы фон «дышал» */
+  border-radius:28px;
+  padding:24px;
+  box-shadow:
+    0 12px 32px rgba(0,0,0,.08),
+    0 0 0 1px rgba(255,255,255,.35) inset; /* тонкий внутренний контур для контраста */
+}
+
+.about__inner{
+  display:grid;
+  grid-template-columns:1fr;
+  gap:18px;
+  align-items:start;
+}
+
+/* Фото */
+.about__photo{
+  border-radius:18px;
+  overflow:hidden;
+}
+.about__photo img{
+  width:100%; height:auto; display:block;
+  filter: drop-shadow(0 14px 18px rgba(0,0,0,.10));
+  border-radius:inherit;
+}
+
+/* Контент */
+.about__title{
+  font-size:clamp(26px, 5.2vw, 44px);
+  line-height:1.12;
+  margin:0 0 8px;
+  letter-spacing:.2px;
+  font-weight:900;
+  text-align:center;
+}
+.about__text{
+  color:#62666F;
+  line-height:1.7;
+  max-width:75ch;
+  margin-inline:auto;
+}
+.about__text p{ margin:0 0 12px; }
+.about__text p:last-child{ margin-bottom:0; }
+
+/* ≥768: немного воздуха */
+@media (min-width:768px){
+  .about{ padding:72px 0; }
+  .about__card{ padding:28px 32px; border-radius:30px; }
+}
+
+/* ≥960: desktop-раскладка как в макете */
+@media (min-width:960px){
+  .about__inner{
+    grid-template-columns:minmax(360px, 420px) 1fr; /* слева фото, справа текст */
+    align-items:center;
+    gap:40px;
+  }
+  .about__title{ text-align:left; margin-bottom:10px; }
+  .about__text{ margin-inline:0; }
+}
+
+
+/* ========= Benefits ========= */
+.benefits{
+  background: var(--benefits-grad); /* яркий → светлый */
+  padding:36px 0;
+}
+
+.benefits__inner{
+  display:grid;
+  grid-template-columns:1fr;
+  gap:18px;
+}
+
+/* Заголовок + лид */
+.benefits__title{
+  font-size:clamp(26px,5.2vw,40px);
+  line-height:1.15;
+  margin:0 0 8px;
+  font-weight:900;
+  text-align:center;
+}
+.benefits__lead{
+  color:#62666F;
+  text-align:left;
+  max-width:60ch;
+  margin:0 0 10px;
+}
+
+/* Карточки */
+.benefits__grid{
+  display:grid;
+  grid-template-columns:1fr;
+  gap:12px;
+}
+.benefits__item{
+  background:#fff;
+  border-radius:18px;
+  padding:18px;
+  box-shadow:0 10px 24px rgba(0,0,0,.06);
+}
+
+/* Иконки — крупные и по центру везде */
+.benefits__icon{
+  width:72px;                 /* было 44px */
+  height:72px;                /* было 44px */
+  border-radius:16px;         /* было 12px */
+  display:flex;               /* для корректного margin:auto */
+  align-items:center; 
+  justify-content:center;
+  background:rgba(0,0,0,.06);
+  color:#0F0F10;
+  margin:0 auto 12px;         /* центр и снизу отступ */
+}
+.benefits__icon svg{
+  width:36px;
+  height:36px;
+}
+
+.benefits__item-title{
+  font-size:18px; font-weight:800; margin:0 0 6px;
+}
+.benefits__item-text{ color:#62666F; margin:0; }
+
+/* ≥960: 2×2 карточки слева, текст справа (шире и свободнее) */
+@media (min-width:960px){
+  .benefits{ padding:72px 0; }
+
+  /* даём больше места карточкам: ~2 : 1 */
+  .benefits__inner{
+    grid-template-columns: 1.35fr .65fr;  /* было 1.1fr .9fr */
+    align-items:start;
+    gap:24px;                              /* было 32px — делаем компактнее общий зазор */
+  }
+
+  .benefits__content{
+    order:2; align-self:start; padding:8px 0;
+  }
+  .benefits__title{ text-align:left; }
+  .benefits__lead{ text-align:left; margin-left:0; }
+
+  /* карточки шире и с чуть большим шагом */
+  .benefits__grid{
+    order:1;
+    grid-template-columns: repeat(2, minmax(320px, 1fr)); /* было minmax(260px,1fr) */
+    gap:20px;                                            /* было 16px */
+  }
+
+  /* сами карточки — немного воздушнее */
+  .benefits__item{
+    padding:22px;               /* было 18px */
+    text-align:center;          /* контент по центру и на десктопе */
+  }
+
+  /* крупные иконки по центру */
+  .benefits__icon{
+    width:84px;
+    height:84px;
+    border-radius:20px;
+    margin:0 auto 12px;         /* центрируем */
+  }
+  .benefits__icon svg{
+    width:40px;
+    height:40px;
+  }
+
+  .benefits__item-title{ font-size:20px; margin-bottom:8px; }
+  .benefits__item-text{ font-size:16px; }
+}
+
+/* ≥1200: ещё чуть шире на больших экранах */
+@media (min-width:1200px){
+  .benefits__inner{
+    grid-template-columns: 1.5fr .5fr;
+    gap:28px;
+  }
+  .benefits__grid{
+    grid-template-columns: repeat(2, minmax(340px, 1fr));
+    gap:22px;
+  }
+  .benefits__item{ padding:24px; }
+}
+
+
+@media (max-width: 2560px){
+  .benefits__lead{
+    max-width: none;   /* снимаем ограничение типа 62ch */
+    width: 100%;
+  }
+}
+
+/* чуть просторнее строки на очень узких */
+@media (max-width: 480px){
+  .benefits__lead{ line-height: 1.4; }
+}
+
+
+
+/* ========= Services ========= */
+.services{
+  background: var(--services-grad);
+  padding: 56px 0;
+}
+
+.services__intro{ margin-bottom: 14px; }
+.services__title{
+  font-size: clamp(26px, 5.4vw, 40px);
+  line-height: 1.15;
+  margin: 0 0 6px;
+  font-weight: 900;
+}
+.services__lead{
+  color:#62666F;
+  max-width: 62ch;
+  margin: 0;
+}
+
+/* сетка карточек */
+.services__grid{
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 14px;
+  margin-top: 12px;
+}
+
+/* карточка */
+.service-card{
+  background:#fff;
+  border-radius: 18px;
+  overflow: hidden;
+  box-shadow: 0 10px 24px rgba(0,0,0,.06);
+  display: grid;
+  grid-template-rows: auto 1fr;
+}
+
+/* === ФОТО БЕЗ ОБРЕЗКИ ФИКС-ВЫСОТОЙ ===
+   Высоту задаём контейнером, не img!
+*/
+.service-card__media{
+  overflow:hidden;
+  aspect-ratio: 4 / 3;            /* базово повыше кадр */
+}
+.service-card__media img{
+  width:100%;
+  height:100%;
+  object-fit:cover;
+  object-position:50% 50%;
+  display:block;
+}
+
+/* если конкретному фото нужно поднять фокус — добавь класс к wrapper:
+   <div class="service-card__media service-card__media--top">… */
+.service-card__media--top img{ object-position:50% 20%; }
+
+.service-card__body{
+  padding: 16px;
+  display:flex;
+  flex-direction:column;   /* чтобы кнопку можно было прижать вниз */
+}
+
+.service-card__title{
+  margin: 0 0 8px;
+  font-weight: 800;
+  font-size: 18px;
+  line-height: 1.25;
+}
+.service-card__text{
+  color:#62666F;
+  margin: 0 0 12px;
+}
+
+/* кнопка — по центру и на всю ширину карточки */
+.service-card__btn{
+  margin-top: auto;
+  width: 100%;
+  display: inline-flex;
+  justify-content: center;
+  text-align: center;
+}
+
+/* ≥768 — больше воздуха, кадр ещё выше (меньше «режет» на планшете) */
+@media (min-width:768px){
+  .services{ padding: 68px 0; }
+  .service-card__media{ aspect-ratio: 3 / 2; }   /* выше, чем 16:9 */
+  /* при желании можно чуть сместить фокус кверху на планшете:
+     .service-card__media img{ object-position:50% 35%; } */
+}
+
+/* ≥960 — три колонки, ровные карточки */
+@media (min-width:960px){
+  .services{ padding: 80px 0; }
+  .services__grid{
+    grid-template-columns: repeat(3, 1fr);
+    gap: 18px;
+    align-items: stretch;          /* одинаковая высота карточек */
+  }
+  .service-card{ height: 100%; }
+  .service-card__media{ aspect-ratio: 16 / 9; }  /* на широких можно шире кадр */
+  .service-card__btn{ width: 100%; }
+}
+
+/* Цена: всё чёрным и жирным, без «разделения» оттенками */
+.service-card__price{
+  margin:6px 0 10px;
+  font-weight:700;
+  font-size:18px;
+  line-height:1.2;
+  color:#111;
+}
+.service-card__price .service-card__per,
+.service-card__price .service-card__note{
+  font-weight:700;
+  color:#111;
+  margin-left:8px;
+}
+
+/* чуть компактнее на узких */
+@media (max-width: 375px){
+  .service-card__price{ font-size:16px; margin:4px 0 8px; }
+}
+
+
+/* На широких экранах оставляем ограничение 62ch,
+   а на планшетах и меньше — растягиваем текст на всю ширину */
+@media (max-width: 2560px){
+  .services__lead{
+    max-width: none;     /* снимаем узкое ограничение */
+    width: 100%;
+  }
+}
+
+/* Чтобы смотрелось аккуратнее на очень узких */
+@media (max-width: 480px){
+  .services__lead{
+    line-height: 1.4;
+  }
+}
+
+
+
+/* overlay */
+.contact-chooser[hidden]{ display:none; }
+.contact-chooser{ position:fixed; inset:0; z-index:1000; }
+.contact-chooser__backdrop{ position:absolute; inset:0; background:rgba(0,0,0,.35); }
+
+/* sheet */
+.contact-chooser__sheet{
+  position: absolute; left:50%; transform:translateX(-50%);
+  bottom:16px; width:min(520px, calc(100% - 24px));
+  background:#fff; border-radius:16px; padding:16px; box-shadow:0 10px 30px rgba(0,0,0,.2);
+}
+.contact-chooser__title{ margin:0 0 12px; font-size:18px; font-weight:700; text-align:center; }
+.contact-chooser__close{
+  position:absolute; top:8px; right:8px; width:32px; height:32px;
+  border:0; background:transparent; font-size:22px; line-height:32px; cursor:pointer;
+}
+
+.contact-chooser__btn{
+  display:flex; align-items:center; justify-content:center;
+  width:100%; padding:12px 14px; border-radius:12px;
+  font-weight:700; text-decoration:none; color:#111; background:#f6f6f6;
+  transition:transform .15s, background-color .15s;
+  margin-top:8px;
+}
+.contact-chooser__btn:hover{ background:#eee; transform:translateY(-1px); }
+.contact-chooser__btn:active{ transform:translateY(0) scale(.98); }
+
+/* брендовые акценты (опционально) */
+.contact-chooser__btn--tel{ background:#FFEFD4; }
+.contact-chooser__btn--wa{ background:#E8FFF0; }
+.contact-chooser__btn--viber{ background:#F0E9FF; }
+
+/* на десктопе можно центрировать */
+@media (min-width: 960px){
+  .contact-chooser__sheet{ top:50%; bottom:auto; transform:translate(-50%,-50%); }
+}

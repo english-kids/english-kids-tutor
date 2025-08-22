@@ -1,0 +1,131 @@
+/* ≥ 768px — лёгкая подстройка отступов (номер телефона не показываем) */
+@media (min-width:768px){
+  .hero{ padding:48px 0; }
+  .hero__panel{ padding:24px; }
+}
+
+
+/* === DESKTOP HERO (добавь ниже существующего кода) === */
+@media (min-width:960px){
+  /* header */
+  .header__burger{display:none;}
+  .header__menu{position:static; display:flex; flex-direction:row; border:none; gap:6px;}
+  .header__link{padding:10px 12px;}
+
+  /* HERO — десктоп */
+  .hero{
+    --header-h:56px;          /* высота шапки */
+    --panel-start:52vw;       /* старт плашки по макету */
+    --panel-overlap:160px;    /* насколько плашка заходит на фото */
+    position:relative;
+    padding:64px 0;
+    min-height:calc(100vh - var(--header-h));
+    overflow:hidden;
+  }
+
+  /* плашка с сеткой, темнее и наезжает на фото */
+  .hero::after{
+    content:"";
+    position:absolute; top:0; right:0; bottom:0;
+    left:calc(var(--panel-start) - var(--panel-overlap));
+    z-index:1; pointer-events:none;
+    background-color:rgba(17,17,17,.60);
+    background-image:radial-gradient(rgba(255,255,255,.035) 1px, transparent 1.4px);
+    background-size:18px 18px;
+  }
+
+  /* колонки: правой больше места, меньше зазор */
+  .hero__inner{
+    grid-template-columns:.9fr 1.1fr;   /* ПРАВАЯ шире -> меньше переносов заголовка */
+    align-items:center;
+    column-gap:16px;                    /* было 32px */
+    height:100%;
+  }
+
+  /* фото слева: аккуратно по высоте, полностью по ширине */
+  .hero__image{
+    border-radius:var(--radius);
+    overflow:hidden;
+    align-self:center;
+    max-height:560px;
+    position:relative; z-index:0;
+  }
+  .hero__image img{
+    width:100%; height:auto; object-fit:contain;
+    border-radius:inherit; box-shadow:0 10px 30px rgba(0,0,0,.08);
+  }
+
+  /* текст поверх плашки */
+  .hero__content{
+    margin-top:0; position:relative; z-index:2;
+    display:flex; align-items:center; background:transparent;
+  }
+  .hero__content::after{content:none;}
+
+  /* «карточка» текста */
+  .hero__panel{
+    background:transparent; box-shadow:none; border-radius:0;
+    padding:32px 36px 32px 22px;
+    max-width:760px;
+    color:#fff;
+    margin-left:-8px;
+    text-align:left;                    /* ← на десктопе выравниваем влево */
+  }
+  .hero__panel::after{content:none;}
+
+  .hero__title{font-size:clamp(36px,3.6vw,54px); line-height:1.15;}
+  .hero__subtitle{font-size:18px; color:rgba(255,255,255,.92);}
+
+  /* ===== КНОПКИ — десктоп (как нужно) ===== */
+  .hero__actions{
+    display:flex;
+    flex-direction:row;
+    flex-wrap:wrap;
+    align-items:center;
+    justify-content:flex-start;
+    gap:12px;
+  }
+  .hero__actions .btn{
+    width:auto;               /* не растягиваем */
+    min-height:unset;
+    padding-inline:18px;
+  }
+  .hero__actions .btn:first-child{
+    padding-inline:24px;      /* «Услуги» пошире */
+    min-width:130px;
+  }
+}
+
+
+/* === VERY LARGE SCREENS (≥1600px) === */
+/* Герой не на весь экран, аккуратная высота и красивый «заезд» плашки */
+@media (min-width:1600px){
+  .hero{
+    /* ограничиваем высоту: не меньше 720px и не больше ~920px */
+    min-height: clamp(720px, 86vh, 920px);
+    padding: 56px 0;
+    --panel-start: 50vw;      /* плашка стартует чуть левее */
+    --panel-overlap: 190px;   /* сильнее наезжает на фото */
+  }
+  .hero::after{
+    bottom: -1px;             /* на всякий случай убираем «шов» снизу */
+  }
+  .hero__image{
+    max-height: 620px;        /* фото не раздувается */
+  }
+  .hero__title{
+    font-size: clamp(38px, 3.2vw, 58px);
+  }
+}
+
+/* Ещё шире — слегка компактнее и ещё левее старт плашки */
+@media (min-width:1920px){
+  .hero{
+    min-height: clamp(720px, 80vh, 900px);
+    --panel-start: 48vw;
+    --panel-overlap: 200px;
+  }
+  .hero__image{ max-height: 600px; }
+}
+
+
