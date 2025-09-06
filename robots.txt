@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://english-kids.github.io/english-kids-tutor/sitemap.xml
